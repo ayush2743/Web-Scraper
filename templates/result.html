@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scraping Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="result">
+        <h2>Amazon Data:</h2>
+        {% if amazon_data.error %}
+            <p class="error">{{ amazon_data.error }}</p>
+        {% else %}
+            <p>Title: {{ amazon_data.title }}</p>
+            <p>Price: {{ amazon_data.price }}</p>
+        {% endif %}
+
+        <h2>Flipkart Data:</h2>
+        {% if flipkart_data.error %}
+            <p class="error">{{ flipkart_data.error }}</p>
+        {% else %}
+            <p>Title: {{ flipkart_data.title }}</p>
+            <p>Price: {{ flipkart_data.price }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>

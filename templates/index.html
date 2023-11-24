@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Price Scraper</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Product Price Comparison Scraper</h1>
+    <form action="/scrape" method="post">
+        <label for="amazon_url">Amazon Product Link:</label>
+        <input type="text" name="amazon_url" required>
+        <br>
+        <label for="flipkart_url">Flipkart Product Link:</label>
+        <input type="text" name="flipkart_url" required>
+        <br>
+        <input type="submit" value="Scrape">
+    </form>
+</body>
+</html>
