@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 import webbrowser
 import threading
 
+
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -21,30 +23,44 @@ def scrape():
     return render_template('result.html', amazon_data=amazon_data, flipkart_data=flipkart_data)
 
 def scrape_amazon(url):
-    head = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', 'Accept-Language': 'en-US, en;q=0.5'}
-
+    head = ({'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'})
     response = requests.get(url, headers=head)
 
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
-        title = soup.find("span", attrs={'id': 'productTitle'})
-        price = soup.find("span", attrs={'class': 'a-price-whole'})
+        
+        title = soup.find("span", id="productTitle")
+        price = soup.find("span", attrs={'class':'a-price-whole'})
 
-        return {'title': title.text.strip(), 'price': '₹' + price.text.strip()}
+        if title is not None and price is not None:
+            return {'title': title.text.strip(), 'price': '₹' + price.text.strip()}
+        else:
+            return {'title': 'Not Found', 'price': 'Not Found'}
 
     return {'error': f"Failed to retrieve the page. Status code: {response.status_code}"}
 
-def scrape_flipkart(url):
-    head = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', 'Accept-Language': 'en-US, en;q=0.5'}
+def scrape_flipkart(url):   
+    head = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Referer": "https://www.flipkart.com/",
+            "Upgrade-Insecure-Requests": "1",
+            "TE": "Trailers",
+        }
 
     response = requests.get(url, headers=head)
 
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
-        title = soup.find("span", attrs={'class': 'B_NuCI'})
-        price = soup.find("div", attrs={'class': '_30jeq3 _16Jk6d'})
-
-        return {'title': title.text.strip(), 'price': price.text.strip()}
+        
+        title = soup.find("span", attrs={'class':'B_NuCI'})
+        price = soup.find("div", class_=["_30jeq3", "_16Jk6d"])
+        
+        if title is not None and price is not None:
+            return {'title': title.text.strip(), 'price': price.text.strip()}
+        else:
+            return {'title': 'Not Found', 'price': 'Not Found'}
 
     return {'error': f"Failed to retrieve the page. Status code: {response.status_code}"}
 
