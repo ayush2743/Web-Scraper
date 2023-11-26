@@ -12,7 +12,7 @@
         {% if amazon_data.error %}
             <p class="error">{{ amazon_data.error }}</p>
         {% else %}
-            <p>Title: {{ amazon_data.title }}</p>
+            <p>Product: {{ amazon_data.title }}</p>
             <p>Price: {{ amazon_data.price }}</p>
         {% endif %}
 
@@ -20,7 +20,7 @@
         {% if flipkart_data.error %}
             <p class="error">{{ flipkart_data.error }}</p>
         {% else %}
-            <p>Title: {{ flipkart_data.title }}</p>
+            <p>Product: {{ flipkart_data.title }}</p>
             <p>Price: {{ flipkart_data.price }}</p>
         {% endif %}
     </div>
